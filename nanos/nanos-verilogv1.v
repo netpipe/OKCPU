@@ -452,7 +452,7 @@ module MainTop #(
   wire [NUM_CORES*64-1:0] dWAddr;
   wire [NUM_CORES*64-1:0] dWData;
   wire [NUM_CORES*8-1:0] dWMask;
-  wire [NUM_CORES-1:0] dWReady;
+  reg [NUM_CORES-1:0] dWReady;
 
   wire [NUM_CORES*64-1:0] core_iAddr;
   wire [NUM_CORES*64-1:0] core_iData;
