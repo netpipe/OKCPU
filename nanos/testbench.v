@@ -1,5 +1,6 @@
 `timescale 1ns / 1ps
-//iverilog -g2012 -o sim MainTop_Param.v testbench.v
+// iverilog -g2012 -o sim MainTop_Param.v testbench.v
+// vvp sim
 module testbench;
   reg clock;
   reg reset;
