@@ -103,7 +103,8 @@ module Core (
   assign io_dRAddr = memReadAddr;
 
   wire [2:0] rLane = io_dRAddr[2:0];
-  wire [7:0] rByte = (io_dRData >> {rLane, 3'b000})[7:0];
+wire [63:0] shiftedRData = io_dRData >> {rLane, 3'b000};
+wire [7:0] rByte = shiftedRData[7:0];
   wire [63:0] memRVal = byteOp ? {56'h0, rByte} : io_dRData;
 
   wire [63:0] regRight = regs[srcReg];
@@ -251,26 +252,26 @@ module Core (
   reg [7:0] memWMask;
 
   wire [63:0] pushAddr = regs[4] - 64'h8;
+wire [63:0] storeData = (op == 8'h01) ? right : alu;
 
-  always @(*) begin
-    memWEn = 1'b0;
-    memWAddr = 64'h0;
-    memWData = 64'h0;
-    memWMask = 8'h00;
+always @(*) begin
+  memWEn = 1'b0;
+  memWAddr = 64'h0;
+  memWData = 64'h0;
+  memWMask = 8'h00;
 
-    if (dstMode == 2'b10 && memWriteOp) begin
-      wire [63:0] storeData = (op == 8'h01) ? right : alu;
-      memWEn = 1'b1;
-      memWAddr = dstAddr & ~64'h7;
-      if (byteOp) begin
-        wire [2:0] lane = dstAddr[2:0];
-        memWData = ({56'h0, storeData[7:0]} << {lane, 3'b000});
-        memWMask = (8'h01 << lane);
-      end else begin
-        memWData = storeData;
-        memWMask = 8'hff;
-      end
+  if (dstMode == 2'b10 && memWriteOp) begin
+    memWEn = 1'b1;
+    memWAddr = dstAddr & ~64'h7;
+
+    if (byteOp) begin
+      memWData = ({56'h0, storeData[7:0]} << {dstAddr[2:0], 3'b000});
+      memWMask = (8'h01 << dstAddr[2:0]);
+    end else begin
+      memWData = storeData;
+      memWMask = 8'hff;
     end
+  end
 
     if (op == 8'h0d) begin
       memWEn = 1'b1;
