@@ -96,7 +96,7 @@ module testbench;
 
   // Waveform dump for GTKWave
   initial begin
-    $dumpfile("MainTop_Param.vcd");
+    $dumpfile("dump.vcd");
     $dumpvars(0, testbench);
   end
 
