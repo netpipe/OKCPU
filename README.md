@@ -1,5 +1,7 @@
 # OKCPU
-new opensource cpu design and research repository
+new opensource cpu design and research repository<br>
+
+https://senolgulgonul.github.io/verisim/?design=https%3A%2F%2Fgithub.com%2Fnetpipe%2FOKCPU%2Fblob%2Fmain%2Fnanos%2Fnanos-verilogv1.v&testbench=https%3A%2F%2Fgithub.com%2Fnetpipe%2FOKCPU%2Fblob%2Fmain%2Fnanos%2Ftestbench.v<br>
 
 WIP untested still
 
